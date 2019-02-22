@@ -4,7 +4,7 @@ namespace core;
 
 class Router implements iRouter
 {
-    function construct() {
+    function __construct() {
         $this->colletion = [];
     }
 

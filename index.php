@@ -2,11 +2,20 @@
 
 require_once 'functions.php';
 
+use core\Router;
+
 install();
 
-echo "Hello Word";
+$router = new Router();
 
-$controller = new controller\Task();
-$controller->actionList();
-// $controller->actionCreate();
-$controller->render();
+$router->route('/')->all('task.list');
+
+$router->route('/create')
+    ->get('task.showCreate')
+    ->post('task.create');
+
+// $router->route('/sign-in')
+//     ->get('task.showLogin')
+//     ->post('task.login');
+
+$router->run();

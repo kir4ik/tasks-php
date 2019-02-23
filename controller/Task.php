@@ -19,25 +19,28 @@ class Task extends Controller
         ]);
     }
 
+    public function actionShowCreate()
+    {
+        $this->content = $this->build('task/create');
+    }
+
     public function actionCreate()
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $name   = $_POST['name'] ?? '';
-            $email  = $_POST['email'] ?? '';
-            $text   = $_POST['text'] ?? '';
+        $name   = $_POST['name'] ?? '';
+        $email  = $_POST['email'] ?? '';
+        $text   = $_POST['text'] ?? '';
 
-            $name = trim(htmlspecialchars($name));
-            $email = trim(htmlspecialchars($email));
-            $text = trim(htmlspecialchars($text));
+        $name = trim(htmlspecialchars($name));
+        $email = trim(htmlspecialchars($email));
+        $text = trim(htmlspecialchars($text));
 
-            $data = [
-                $this->model::USER_NAME => $name,
-                $this->model::USER_EMAIL => $email,
-                $this->model::CONTENT => $text
-            ];
+        $data = [
+            $this->model::USER_NAME => $name,
+            $this->model::USER_EMAIL => $email,
+            $this->model::CONTENT => $text
+        ];
 
-            $this->model->insert($data);
-        }
+        $this->model->insert($data);
 
         $this->content = $this->build('task/create');
     }

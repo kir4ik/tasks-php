@@ -1,8 +1,8 @@
-<? if ($isSuccess === false): ?>
+<?php if ($isSuccess === false): ?>
     <div class="alert alert-danger m-2">
         <h4>Error, user with same data not found</h4>
     </div>
-<? endif; ?>
+<?php endif; ?>
 <form action="/sign-in" method="post" class="row form-inline align-items-start p-3">
     <input type="text" name="login" placeholder="Your Login"
         value="<?= getVal($_POST['login']) ?>"

@@ -4,13 +4,13 @@
         <div class="form-group col-12 align-items-center">
             <label for="field" class="form-check-label col-12 justify-content-start mb-2" >Sort By</label>
             <select name="<?= getVal(controller\Task::NAME_SORT_FIELD) ?>" id="field" class="form-control col-sm-12 col-md-12" >
-                <? foreach ($dataSort[controller\Task::NAME_SORT_FIELD] as $key => $val): ?>
+                <?php foreach ($dataSort[controller\Task::NAME_SORT_FIELD] as $key => $val): ?>
                     <option value="<?= getVal($key) ?>" <?= getReplaced($val['isActive'], 'selected') ?> ><?= getVal($val['label']) ?></option>
-                <? endforeach; ?>
+                <?php endforeach; ?>
             </select>
         </div>
         <div class="form-group align-items-center align-content-center col-sm-6 col-md-3">
-        <? foreach ($dataSort[controller\Task::NAME_SORT_METHOD] as $key => $val): ?>
+        <?php foreach ($dataSort[controller\Task::NAME_SORT_METHOD] as $key => $val): ?>
             <div class="form-check m-0 col-sm-12 col-md-6">
                 <input type="radio" name="<?= getVal(controller\Task::NAME_SORT_METHOD) ?>" id="<?= getReplaced($key, "sort_$key")?>" <?= getReplaced($val['isActive'], 'checked') ?>
                     value="<?= getVal($key) ?>"
@@ -20,7 +20,7 @@
                     class="form-check-label"
                 ><?= getVal($val['label'])?></label>
             </div>
-        <? endforeach; ?>
+        <?php endforeach; ?>
         </div>
         <input type="submit" value="Sort"
             class="btn btn-success col-12"
@@ -28,19 +28,19 @@
     </form>
     <!-- list of tasks -->
     <div class="row col-sm-12 col-md-10">
-    <? if ($tasks) foreach ($tasks as $task): ?>
+    <?php if ($tasks) foreach ($tasks as $task): ?>
         <div class="card col-md-12 col-lg-4 my-2">
             <div class="card-header row no-gutters">
                 <h4 class="col-11">
-                    <? if ($task['isCompleted']): ?>
+                    <?php if ($task['isCompleted']): ?>
                         <span class="text-success">complited</span>
-                    <? else: ?>
+                    <?php else: ?>
                         <span class="text-danger">active</span>
-                    <? endif; ?>
+                    <?php endif; ?>
                 </h4>
                 <!-- $session['isAdmin'] -->
-                <? if (controller\Controller::isAdmin()): ?>
-                    <? $index = "edit_" . $task[model\Task::ID]; ?>
+                <?php if (controller\Controller::isAdmin()): ?>
+                    <?php $index = "edit_" . $task[model\Task::ID]; ?>
                     <div class="col-1 d-flex justify-content-center align-items-center">
                         <button class="btn" title="Edit" data-toggle="modal" data-target="#<?= getVal($index) ?>">&#128736;</button>
                     </div>
@@ -82,7 +82,7 @@
                             </div>
                         </div>
                     </div>
-                <? endif; ?>
+                <?php endif; ?>
             </div>
             <div class="card-body row no-gutters align-content-between">
                 <p class="card-text col-12"><?= $task[model\Task::CONTENT] ?></p>
@@ -92,7 +92,7 @@
                 <span class="mx-auto">Email: <?= $task[model\Task::USER_EMAIL] ?></span>
         </footer>
         </div>
-    <? endforeach; ?>
+    <?php endforeach; ?>
     </div>
     <!-- pagination -->
     <nav aria-label="Page navigation example ">
@@ -103,13 +103,13 @@
             </a>
         </li>
         <!-- numbers pages -->
-        <? $dottedSpace = true; for ($i = 1; $i <= $countPages; $i++): ?>
-            <? if ($i === 1 || $i === $countPages || ($i >= $currentPageN - 1 && $i <= $currentPageN + 1)): ?>
+        <?php $dottedSpace = true; for ($i = 1; $i <= $countPages; $i++): ?>
+            <?php if ($i === 1 || $i === $countPages || ($i >= $currentPageN - 1 && $i <= $currentPageN + 1)): ?>
                 <li class="page-item <?= getReplaced($i === $currentPageN, 'active disabled') ?>"><a class="page-link" href="?page=<?= getVal($i) ?>"><?= getVal($i) ?></a></li>
-            <? elseif ($dottedSpace): $dottedSpace = false; ?>
+            <?php elseif ($dottedSpace): $dottedSpace = false; ?>
                 <li class="page-item disabled"><a class="page-link" href="">...</a></li>
-            <? endif; ?>
-        <? endfor; ?>
+            <?php endif; ?>
+        <?php endfor; ?>
         <li class="page-item <?= getReplaced($currentPageN >= $countPages, 'disabled') ?>">
             <a class="page-link" href="?page=<?= getVal($currentPageN + 1) ?>" aria-label="Next">
                 <span aria-hidden="true">&raquo;</span>

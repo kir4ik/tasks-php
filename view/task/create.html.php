@@ -1,8 +1,8 @@
-<? if ($isValid === false): ?>
+<?php if ($isValid === false): ?>
     <div class="alert alert-danger m-2">
         <h4>Все поля обязательные</h4>
     </div>
-<? endif; ?>
+<?php endif; ?>
 <form action="/create" method="post"
     class="row p-3"
 >

@@ -40,16 +40,48 @@
                 </h4>
                 <!-- $session['isAdmin'] -->
                 <? if (controller\Controller::isAdmin()): ?>
-                    <form action="/task/edit" method="post"
-                        class="col-1 d-flex justify-content-center align-items-center align-content-center">
-                        <input type="checkbox" name="id" checked class="d-none"
-                            value="<?= getVal($task[model\Task::ID]) ?>"
-                        />
-                        <input type="checkbox" name="status"
-                            <?= getReplaced($task['isCompleted'], 'checked') ?>
-                            onChange="changeStatus(this.parentNode)"
-                        />
-                    </form>
+                    <? $index = "edit_" . $task[model\Task::ID]; ?>
+                    <div class="col-1 d-flex justify-content-center align-items-center">
+                        <button class="btn" title="Edit" data-toggle="modal" data-target="#<?= getVal($index) ?>">&#128736;</button>
+                    </div>
+                    <div class="modal" tabindex="-1" role="dialog" aria-hidden="true"
+                        id="<?= getVal($index) ?>"
+                    >
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title"><span class="badge badge-dark mx-2">ID: <?= getVal($task[model\Task::ID]) ?></span>Editor Task</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <form action="/task/edit" method="post" class="modal-body">
+                                    <p class="col-12 text-muted mb-0"><span class="text-info px-2">User Name: </span><?= getVal($task[model\Task::USER_NAME]) ?></p>
+                                    <p class="col-12 text-muted"><span class="text-info px-2">User email: </span><?= getVal($task[model\Task::USER_EMAIL]) ?></p>
+                                    <input type="checkbox" name="id" checked class="d-none"
+                                        value="<?= getVal($task[model\Task::ID]) ?>"
+                                    />
+                                    <div class="form-group col-12">
+                                        <label for="<?= getVal("area_$index") ?>" class="form-check-label">Deskription task: </label>
+                                        <textarea
+                                            name="<?= getVal(model\Task::CONTENT) ?>"
+                                            id="<?= getVal("area_$index") ?>"
+                                            class="col-12"
+                                        ><?= getVal($task[model\Task::CONTENT]) ?></textarea>
+                                    </div>
+                                    <div class="form-group col-12">
+                                        <input type="checkbox" name="status" id="<?= getVal("status_$index") ?>"
+                                            <?= getReplaced($task['isCompleted'], 'checked') ?>
+                                        />
+                                        <label for="<?= getVal("status_$index") ?>" class="form-check-label">Save staus as comleted</label>
+                                    </div>
+                                    <div class="w-100 text-right">
+                                        <input type="submit" class="btn btn-info" value="save" />
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                 <? endif; ?>
             </div>
             <div class="card-body row no-gutters align-content-between">
@@ -87,7 +119,7 @@
     </nav>
 </section>
 <script>
-    function changeStatus(form) {
-        form.submit();
+    function editTask(e) {
+        console.log(e);
     }
 </script>

@@ -60,14 +60,29 @@ class Task extends Controller
     {
         $id = $_POST[$this->model::ID];
         $status = $_POST[$this->model::STATUS] ? 1 : 0;
+        $text = $_POST[$this->model::CONTENT];
+
+        $text = trim(htmlspecialchars($text));
+
+        if (empty($text)) {
+            // error
+            die('Error field with deskription of task do not must empty!');
+        }
 
         if (!is_numeric($id)) {
             // error
             die('Error ID incorrect '.$id);
         }
 
-        $isSuccess = $this->model->changeStatus($id, $status);
-        redirect('/');
+        $isSuccess = $this->model->updateById($id, [
+            $this->model::STATUS => $status,
+            $this->model::CONTENT => $text
+        ]);
+
+        if ($isSuccess) redirect('/');
+
+        // error
+        die('An error occurred while trying to update the data!');
     }
 
     // show form of create new task

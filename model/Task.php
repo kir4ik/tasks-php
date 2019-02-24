@@ -63,15 +63,23 @@ class Task extends Model
         return $st->execute($params) ? $this->db->lastInsertId() : false;
     }
 
-    public function changeStatus($id, $newStatus)
+    public function updateById($id, Array $data)
     {
-        $status = self::STATUS .'=:'. self::STATUS;
+        $cols = array_keys($data);
+        if (array_key_exists(self::ID, $cols)) unset($cols[self::ID]);
 
-        $sql = sprintf('UPDATE %s SET %s WHERE id=:id', $this->table, $status);
+        $maskVals = array_map(function ($el) {
+            return "$el=:$el";
+        }, $cols);
+
+        $sql = sprintf('UPDATE %s SET %s WHERE id=:id', $this->table, implode(',', $maskVals));
         $st = $this->db->prepare($sql);
 
-        $params[self::STATUS] = $newStatus;        
-        $params[':id'] = $id;        
+        $params = [];
+        foreach ($data as $key => $val) {
+            $params[":$key"] = $val;
+        }
+        $params[':id'] = $id;
 
         return $st->execute($params);
     }

@@ -4,12 +4,13 @@ namespace model;
 
 class Task extends Model
 {
-    const ID = 'id';
-    const CONTENT = 'content';
-    const USER_NAME = 'user_name';
-    const USER_EMAIL = 'user_email';
-    const DATE_CREATED = 'date_created';
-    const DATE_UPDATED = 'date_updated';
+    const ID            = 'id';
+    const CONTENT       = 'content';
+    const USER_NAME     = 'user_name';
+    const USER_EMAIL    = 'user_email';
+    const STATUS        = 'status';
+    const DATE_CREATED  = 'date_created';
+    const DATE_UPDATED  = 'date_updated';
 
     function __construct()
     {
@@ -18,13 +19,29 @@ class Task extends Model
         $this->table = 'tasks';
     }
 
-    public function getList()
+    public function sort()
     {
-        $sql = sprintf('SELECT * FROM %s', $this->table);
+
+    }
+
+    public function getBatch(int $pos, int $limit, String $sortField = self::ID, String $sortMethod = self::SORT_DESC)
+    {
+        $sortMethod = $sortMethod === self::SORT_ASC ? self::SORT_ASC : self::SORT_DESC;
+
+        $sql = sprintf('SELECT * FROM %s ORDER BY %s %s LIMIT %s, %s', $this->table, $sortField, $sortMethod, $pos, $limit);
 
         $st = $this->db->prepare($sql);
         
         return $st->execute() ? $st->fetchAll(\PDO::FETCH_ASSOC) : false;
+    }
+
+    public function getCount()
+    {
+        $sql = sprintf('SELECT COUNT(*) FROM %s', $this->table);
+
+        $st = $this->db->prepare($sql);
+        
+        return $st->execute() ? $st->fetch(\PDO::FETCH_NUM)[0] : false;
     }
 
     public function insert(Array $data)
@@ -44,5 +61,18 @@ class Task extends Model
         }
         
         return $st->execute($params) ? $this->db->lastInsertId() : false;
+    }
+
+    public function changeStatus($id, $newStatus)
+    {
+        $status = self::STATUS .'=:'. self::STATUS;
+
+        $sql = sprintf('UPDATE %s SET %s WHERE id=:id', $this->table, $status);
+        $st = $this->db->prepare($sql);
+
+        $params[self::STATUS] = $newStatus;        
+        $params[':id'] = $id;        
+
+        return $st->execute($params);
     }
 }

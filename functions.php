@@ -21,3 +21,18 @@ function install() {
         custom_print("Во время утановки произошла ошибка!");
     }
 }
+
+function getVal($val, $default = '') {
+    return $val ?: $default;
+}
+
+function getReplaced($val, $success, $faild = '') {
+    if (empty($val)) return $faild;
+
+    return $success;
+}
+
+function redirect(String $path) {
+    header("Location: $path");
+    exit();
+}

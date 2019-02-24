@@ -5,9 +5,9 @@ RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule .* index.php?uri=$0 [QSA]
 
 
-<FilesMatch "\.(php)$">
-	Deny from all
-</FilesMatch>
+# <FilesMatch "\.(php)$">
+# 	Deny from all
+# </FilesMatch>
 
 <FilesMatch "index.(php)$">
 	Allow from all

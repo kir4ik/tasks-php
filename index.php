@@ -8,6 +8,13 @@ use core\Router;
 
 install();
 
+// dayside
+$uri = explode('/', $_SERVER['REQUEST_URI']);
+if ($uri[1] === 'dayside') {
+    include 'dayside/index.php';
+    die('done');
+}
+
 $router = new Router();
 
 /**
